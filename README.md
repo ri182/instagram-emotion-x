@@ -1,7 +1,6 @@
 # instagram-emotion-x
-Instagram profile emotional analysis using DeepFace
 
-Flask server hosting an webapp for Instagram profile image emotion analysis.
+Flask server hosting a webapp for Instagram profile image emotion analysis.
 
 Grabs all the profile images then does an emotional analysis using a self-hosted DeepFace API and frontail then plots it into a chart.
 

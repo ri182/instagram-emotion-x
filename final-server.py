@@ -7,10 +7,12 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import time
-
+import multiprocessing
 
 app = Flask(__name__)
 
+def signal_handler(signum, frame):
+    raise Exception("Timed out!")
 
 @app.route('/')
 def form():
@@ -24,17 +26,34 @@ def verify():
 
         ## DeepFace API goes here
 
-        url = "http://20.203.128.120:5000/analyze"
+        url = "http://192.168.0.232:5000/analyze"
         IGusername = name.strip()
 
 
         ## Directory where your script is located here
 
-        directory = f"/var/www/html/pizza/{IGusername}/"
+        directory = f"/home/odin/dev/instagram-emotion-x/{IGusername}/"
+
+
+        ## Maximum number of seconds to fetch IG pictures
+
+        fetchTimeout = int('130')
+
+        ## Don't forget to pipe output to z.log if you want an interactive browser output
 
         print(f"[1/4]Fetching IG data for {IGusername}...")
-        os.system(
-            f"instaloader {IGusername} --login bellvuedata --password foobar --no-videos --no-video-thumbnails --no-metadata-json --no-compress-json")
+        def bar():
+            os.system(
+                f"instaloader {IGusername} --login bellvuedata --password p@ssw0rd --no-videos --no-video-thumbnails --no-metadata-json --no-compress-json")
+
+        p = multiprocessing.Process(target=bar)
+        p.start()
+        p.join(fetchTimeout)
+        if p.is_alive():
+            print("[!]Stopping media download")
+            p.terminate()
+            p.join()
+
 
         myfiles = glob.glob(f"{directory}*.jpg")
 
@@ -98,6 +117,6 @@ def verify():
 def user(name):
     return render_template('chart.html')
 
-## Hosting on all network interfaces on port 80
+app.run(host='0.0.0.0', port=4444)
 
-app.run(host='0.0.0.0', port=80)
+## Hosting on all network interfaces on port 80

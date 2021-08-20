@@ -114,6 +114,7 @@ def verify():
 def user(name):
     return render_template('chart.html')
 
-app.run(host='0.0.0.0', port=4444)
-
 ## Hosting on all network interfaces on port 80
+
+app.run(host='0.0.0.0', port=80)
+

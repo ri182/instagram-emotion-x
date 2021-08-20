@@ -11,9 +11,6 @@ import multiprocessing
 
 app = Flask(__name__)
 
-def signal_handler(signum, frame):
-    raise Exception("Timed out!")
-
 @app.route('/')
 def form():
     return render_template('form-iframe.html')

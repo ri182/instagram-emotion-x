@@ -3,7 +3,7 @@
 Flask server hosting a webapp for Instagram profile image emotion analysis.
 
 ```
-Edit line 200 of /static/form-iframe.html with your frontail url
+Edit line 200 of /templates/form-iframe.html with your frontail url
 
 frontail -p 9999 --ui-hide-topbar z.log 
 python3 final-server.py > z.log
